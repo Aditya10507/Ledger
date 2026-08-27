@@ -1,0 +1,48 @@
+{
+  "accuracy": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "fp_rate": 0.0,
+    "type_accuracy": 1.0,
+    "per_type_recall": {
+      "amount_mismatch": {
+        "caught": 60,
+        "total": 60
+      },
+      "missing_settlement": {
+        "caught": 60,
+        "total": 60
+      },
+      "timing_anomaly": {
+        "caught": 60,
+        "total": 60
+      },
+      "duplicate": {
+        "caught": 120,
+        "total": 120
+      }
+    },
+    "calibration": {
+      "80-100": [
+        1.0,
+        120
+      ],
+      "50-79": [
+        1.0,
+        120
+      ],
+      "0-49": [
+        null,
+        0
+      ]
+    }
+  },
+  "throughput": {
+    "500": 0.9693522453308105,
+    "1000": 1.941329002380371,
+    "2000": 3.6983768939971924,
+    "5000": 9.749253273010254,
+    "10000": 18.669769763946533,
+    "20000": 37.510639667510986
+  }
+}
