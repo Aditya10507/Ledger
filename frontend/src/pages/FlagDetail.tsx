@@ -5,6 +5,7 @@ import AuditRow from "../components/AuditRow";
 import ConfidenceMeter from "../components/ConfidenceMeter";
 import DecisionBar from "../components/DecisionBar";
 import FlagBadge from "../components/FlagBadge";
+import StampBadge from "../components/StampBadge";
 
 export default function FlagDetail() {
   const { flagId } = useParams();
@@ -19,42 +20,53 @@ export default function FlagDetail() {
 
   useEffect(load, [flagId]);
 
-  if (!flag) return <div className="p-8 text-sm text-ink/60">Loading…</div>;
+  if (!flag) return <div className="p-8 text-sm text-ink-faint">Loading…</div>;
 
   return (
     <div className="max-w-3xl mx-auto p-8">
-      <div className="flex items-center gap-3 mb-4">
+      <div className="flex items-center gap-3 mb-6">
         <FlagBadge type={flag.flag_type} />
         <ConfidenceMeter score={flag.confidence_score} />
-        <span className="text-sm capitalize text-ink/60">{flag.status}</span>
+        <span className="text-sm capitalize text-ink-muted">{flag.status}</span>
       </div>
 
-      <div className="bg-white rounded-lg p-6 mb-6">
-        <h2 className="text-sm font-medium text-ink/60 mb-2">AI Explanation</h2>
-        <p className="text-sm">
+      <div className="bg-panel border border-line rounded-sm p-6 mb-6">
+        <h2 className="text-xs uppercase tracking-wide text-ink-muted mb-2 font-medium">
+          AI Explanation
+        </h2>
+        <p className="text-sm text-ink">
           {flag.explanation_status === "ok"
             ? flag.ai_explanation
             : "AI explanation unavailable — reviewed using computed data."}
         </p>
         {flag.computed_delta != null && (
-          <p className="text-xs text-ink/50 mt-3 font-mono">Computed delta: {flag.computed_delta}</p>
+          <p className="text-xs text-ink-faint mt-3 font-mono">Computed delta: {flag.computed_delta}</p>
         )}
       </div>
 
       {flag.status === "open" ? (
         <DecisionBar flagId={flag.id} onDecided={load} />
       ) : (
-        <div className="bg-white rounded-lg p-4 text-sm">
-          <p className="capitalize font-medium">{flag.status}</p>
-          {flag.review_comment && <p className="text-ink/60 mt-1">"{flag.review_comment}"</p>}
+        <div className="bg-panel border border-line rounded-sm p-6 mb-6">
+          <div className="flex items-center gap-4 mb-2">
+            <StampBadge decision={flag.status} />
+            <span className="text-sm capitalize font-medium text-ink">{flag.status}</span>
+          </div>
+          {flag.review_comment && (
+            <p className="text-sm text-ink-muted mt-2">"{flag.review_comment}"</p>
+          )}
         </div>
       )}
 
       <div className="mt-8">
-        <h2 className="text-sm font-medium text-ink/60 mb-2">Audit Trail</h2>
-        {audit.map((entry) => (
-          <AuditRow key={entry.id} entry={entry} />
-        ))}
+        <h2 className="text-xs uppercase tracking-wide text-ink-muted mb-4 font-medium">
+          Audit Trail
+        </h2>
+        <div className="space-y-2">
+          {audit.map((entry) => (
+            <AuditRow key={entry.id} entry={entry} />
+          ))}
+        </div>
       </div>
     </div>
   );

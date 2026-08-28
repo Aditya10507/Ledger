@@ -15,3 +15,7 @@ dist/
 
 # OS
 .DS_Store
+
+# Generated
+frontend/frontend.log
+test-results/

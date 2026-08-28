@@ -7,7 +7,7 @@ const LABELS: Record<string, string> = {
 
 export default function FlagBadge({ type }: { type: string }) {
   return (
-    <span className="text-xs font-medium bg-warning/10 text-warning px-2 py-1 rounded-full whitespace-nowrap">
+    <span className="text-xs font-medium bg-stamp-amber-light text-stamp-amber px-2.5 py-1 rounded-sm whitespace-nowrap">
       {LABELS[type] ?? type}
     </span>
   );

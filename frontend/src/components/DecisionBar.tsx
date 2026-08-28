@@ -24,36 +24,36 @@ export default function DecisionBar({ flagId, onDecided }: { flagId: string; onD
   };
 
   return (
-    <div className="bg-white rounded-lg p-4">
-      <label className="block text-xs font-medium text-ink/60 mb-1">
+    <div className="bg-panel border border-line rounded-sm p-4">
+      <label className="block text-xs font-medium text-ink-muted mb-1">
         Comment (required for escalation)
       </label>
       <textarea
-        className="w-full border rounded-md px-3 py-2 text-sm mb-3"
+        className="w-full border border-line rounded-sm px-3 py-2 text-sm mb-3 bg-panel text-ink placeholder:text-ink-faint focus:outline-none focus:border-ledger"
         rows={2}
         value={comment}
         onChange={(e) => setComment(e.target.value)}
       />
-      {error && <p className="text-critical text-sm mb-3">{error}</p>}
+      {error && <p className="text-stamp-red text-sm mb-3">{error}</p>}
       <div className="flex gap-2">
         <button
           disabled={submitting}
           onClick={() => decide("approved")}
-          className="bg-success text-white text-sm font-medium px-4 py-2 rounded-md disabled:opacity-40"
+          className="bg-ledger text-white text-sm font-medium px-4 py-2 rounded-sm disabled:opacity-40 hover:bg-ledger-dark transition-colors"
         >
           Approve
         </button>
         <button
           disabled={submitting}
           onClick={() => decide("rejected")}
-          className="bg-ink/10 text-ink text-sm font-medium px-4 py-2 rounded-md disabled:opacity-40"
+          className="bg-line text-ink text-sm font-medium px-4 py-2 rounded-sm disabled:opacity-40 hover:bg-ink/20 transition-colors"
         >
           Reject
         </button>
         <button
           disabled={submitting}
           onClick={() => decide("escalated")}
-          className="bg-critical text-white text-sm font-medium px-4 py-2 rounded-md disabled:opacity-40"
+          className="bg-stamp-red text-white text-sm font-medium px-4 py-2 rounded-sm disabled:opacity-40 hover:opacity-90 transition-colors"
         >
           Escalate
         </button>
