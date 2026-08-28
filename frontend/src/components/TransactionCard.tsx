@@ -7,11 +7,13 @@ interface Txn {
 
 export default function TransactionCard({ txn }: { txn: Txn }) {
   return (
-    <div className="bg-white rounded-md p-3 text-sm">
-      <p className="font-mono text-xs text-ink/50 uppercase">{txn.source}</p>
-      <p className="font-mono text-xs text-ink/50">{txn.external_txn_id}</p>
-      <p className="font-mono font-medium">₹{txn.amount}</p>
-      <p className="text-xs text-ink/60">{new Date(txn.timestamp).toLocaleString()}</p>
+    <div className="bg-panel border border-line rounded-sm p-3">
+      <p className="font-mono text-[10px] text-ink-faint uppercase">{txn.source}</p>
+      <p className="font-mono text-xs text-ink-muted">{txn.external_txn_id}</p>
+      <p className="font-mono font-medium text-ink mt-1">₹{txn.amount}</p>
+      <p className="text-xs text-ink-faint mt-1">
+        {new Date(txn.timestamp).toLocaleString()}
+      </p>
     </div>
   );
 }

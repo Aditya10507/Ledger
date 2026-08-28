@@ -1,0 +1,6 @@
+transaction_id,amount,currency,timestamp,counterparty
+TXN2001,10000,INR,2026-08-01T09:00:00,Orion Corp
+TXN2002,4500,INR,2026-08-01T10:30:00,Zenith Retail
+TXN2003,2200,INR,2026-08-01T11:45:00,Orion Corp
+TXN2004,8800,INR,2026-08-02T08:15:00,Delta Mart
+TXN2005,1500,INR,2026-08-02T09:30:00,Zenith Retail

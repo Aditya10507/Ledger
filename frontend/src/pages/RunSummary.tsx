@@ -11,13 +11,14 @@ export default function RunSummary() {
     client.get(`/reconciliation/runs/${runId}`).then((res) => setRun(res.data));
   }, [runId]);
 
-  if (!run) return <div className="p-8 text-sm text-ink/60">Loading…</div>;
+  if (!run) return <div className="p-8 text-sm text-ink-faint">Loading…</div>;
 
   const matchRate = run.total_records ? Math.round((run.matched_count / run.total_records) * 100) : 0;
 
   return (
     <div className="max-w-4xl mx-auto p-8">
-      <h1 className="text-xl font-semibold mb-6">Run Summary</h1>
+      <p className="text-xs uppercase tracking-widest text-ink-muted mb-1">Run Detail</p>
+      <h1 className="font-display text-2xl font-semibold text-ink mb-8">Run Summary</h1>
 
       <div className="grid grid-cols-4 gap-4 mb-8">
         <StatCard label="Total Records" value={run.total_records} />
@@ -26,7 +27,10 @@ export default function RunSummary() {
         <StatCard label="Flagged Value" value={`₹${run.total_flagged_value ?? 0}`} />
       </div>
 
-      <Link to={`/runs/${runId}/flags`} className="bg-primary text-white rounded-md px-4 py-2 text-sm font-medium">
+      <Link
+        to={`/runs/${runId}/flags`}
+        className="bg-ledger text-white rounded-sm px-5 py-2.5 text-sm font-medium hover:bg-ledger-dark transition-colors"
+      >
         View Flags
       </Link>
     </div>

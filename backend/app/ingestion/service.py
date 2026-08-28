@@ -8,7 +8,19 @@ from app.models.transaction import Transaction, TransactionSource
 
 
 def parse_and_validate(file_bytes: bytes) -> pd.DataFrame:
-    df = pd.read_csv(BytesIO(file_bytes))
+    # Handle BOM (Byte Order Mark) from Windows/Excel exports and try multiple encodings
+    for encoding in ("utf-8-sig", "utf-8", "latin-1", "cp1252"):
+        try:
+            df = pd.read_csv(BytesIO(file_bytes), encoding=encoding)
+            # If we got columns but they have BOM prefix, strip them
+            df.columns = [c.strip().lstrip("\ufeff") for c in df.columns]
+            if not df.empty or len(df.columns) > 0:
+                break
+        except (UnicodeDecodeError, pd.errors.EmptyDataError):
+            continue
+    else:
+        df = pd.DataFrame()
+
     validate_csv(df)
     return df
 

@@ -26,36 +26,58 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-sm p-8 w-full max-w-sm">
-        <h1 className="text-xl font-semibold mb-1">Ledger</h1>
-        <p className="text-sm text-ink/60 mb-6">AI Finance Controller</p>
+    <div className="min-h-screen flex items-center justify-center bg-paper">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-panel border border-line rounded-sm shadow-sm p-8 w-full max-w-sm"
+      >
+        <div className="mb-6">
+          <h1 className="font-display text-2xl font-semibold text-ink tracking-tight">
+            Ledger
+          </h1>
+          <p className="font-mono text-[10px] uppercase tracking-widest text-ink-faint mt-1">
+            AI Finance Controller
+          </p>
+        </div>
 
-        <label className="block text-sm font-medium mb-1">Email</label>
+        <label htmlFor="login-email" className="block text-xs font-medium text-ink-muted mb-1">
+          Email
+        </label>
         <input
-          className="w-full border rounded-md px-3 py-2 mb-4 text-sm"
+          id="login-email"
+          type="email"
+          autoComplete="email"
+          className="w-full border border-line rounded-sm px-3 py-2 mb-4 text-sm bg-panel text-ink placeholder:text-ink-faint focus:outline-none focus:border-ledger"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
 
-        <label className="block text-sm font-medium mb-1">Password</label>
+        <label htmlFor="login-password" className="block text-xs font-medium text-ink-muted mb-1">
+          Password
+        </label>
         <input
+          id="login-password"
           type="password"
-          className="w-full border rounded-md px-3 py-2 mb-4 text-sm"
+          autoComplete="current-password"
+          className="w-full border border-line rounded-sm px-3 py-2 mb-4 text-sm bg-panel text-ink placeholder:text-ink-faint focus:outline-none focus:border-ledger"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        {error && <p className="text-critical text-sm mb-4">{error}</p>}
+        {error && (
+          <p role="alert" className="text-stamp-red text-sm mb-4">
+            {error}
+          </p>
+        )}
 
         <button
           disabled={loading}
-          className="w-full bg-primary text-white rounded-md py-2 text-sm font-medium disabled:opacity-50"
+          className="w-full bg-ledger text-white rounded-sm py-2.5 text-sm font-medium disabled:opacity-50 hover:bg-ledger-dark transition-colors"
         >
           {loading ? "Logging in…" : "Log in"}
         </button>
 
-        <p className="text-xs text-ink/40 mt-4">
+        <p className="text-xs text-ink-faint mt-4">
           Demo: analyst@ledger.demo / password123 (pre-filled)
         </p>
       </form>

@@ -1,3 +1,5 @@
+import { useRef, useState } from "react";
+
 export default function FileDropZone({
   label,
   file,
@@ -7,16 +9,73 @@ export default function FileDropZone({
   file: File | null;
   onSelect: (file: File) => void;
 }) {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [dragging, setDragging] = useState(false);
+
+  const openPicker = () => {
+    inputRef.current?.click();
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = e.target.files?.[0];
+    if (selected) onSelect(selected);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setDragging(false);
+    const dropped = e.dataTransfer.files?.[0];
+    if (dropped) onSelect(dropped);
+  };
+
   return (
-    <label className="block border-2 border-dashed border-ink/20 rounded-lg p-6 text-center cursor-pointer hover:border-primary transition-colors">
+    <div
+      onClick={openPicker}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          openPicker();
+        }
+      }}
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+      role="button"
+      tabIndex={0}
+      aria-label={label}
+      className={`block border-2 border-dashed rounded-sm p-8 text-center cursor-pointer transition-all ${
+        dragging
+          ? "border-ledger bg-ledger-light scale-[1.02]"
+          : file
+          ? "border-ledger bg-ledger-light"
+          : "border-line hover:border-ledger/50 bg-panel"
+      }`}
+    >
       <input
+        ref={inputRef}
         type="file"
-        accept=".csv"
         className="hidden"
-        onChange={(e) => e.target.files?.[0] && onSelect(e.target.files[0])}
+        style={{ position: "absolute", left: "-9999px" }}
+        onChange={handleChange}
       />
-      <p className="text-sm font-medium">{label}</p>
-      <p className="text-xs text-ink/50 mt-1">{file ? file.name : "Click or drag a .csv file"}</p>
-    </label>
+      <p className="text-xs uppercase tracking-wide text-ink-muted mb-2">{label}</p>
+      {file ? (
+        <p className="font-mono text-sm text-ledger-dark font-medium">{file.name}</p>
+      ) : (
+        <p className="text-sm text-ink-faint">
+          {dragging ? "Drop file here" : "Click to select a file"}
+        </p>
+      )}
+    </div>
   );
 }

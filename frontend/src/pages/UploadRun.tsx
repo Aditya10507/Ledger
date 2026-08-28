@@ -23,7 +23,6 @@ export default function UploadRun() {
       const { data } = await client.post("/reconciliation/runs", formData);
       navigate(`/runs/${data.run_id}`);
     } catch (err: any) {
-      // Surfaces the specific, row-level error from the backend (FR-5) rather than a generic message.
       const detail = err?.response?.data?.detail;
       setError(typeof detail === "object" ? detail.message : detail || "Upload failed. Please check your files.");
     } finally {
@@ -33,22 +32,32 @@ export default function UploadRun() {
 
   return (
     <div className="max-w-2xl mx-auto p-8">
-      <h1 className="text-xl font-semibold mb-6">New Reconciliation Run</h1>
+      <p className="text-xs uppercase tracking-widest text-ink-muted mb-1">New Reconciliation</p>
+      <h1 className="font-display text-2xl font-semibold text-ink mb-8">Submit Documents</h1>
 
       <div className="grid grid-cols-2 gap-4 mb-6">
         <FileDropZone label="Ledger CSV" file={ledgerFile} onSelect={setLedgerFile} />
         <FileDropZone label="Settlement CSV" file={settlementFile} onSelect={setSettlementFile} />
       </div>
 
-      {error && <p className="text-critical text-sm mb-4">{error}</p>}
+      {error && (
+        <p role="alert" className="text-stamp-red text-sm mb-4">
+          {error}
+        </p>
+      )}
 
       <button
         disabled={!ledgerFile || !settlementFile || loading}
         onClick={handleSubmit}
-        className="bg-primary text-white rounded-md px-4 py-2 text-sm font-medium disabled:opacity-40"
+        className="bg-ledger text-white rounded-sm px-5 py-2.5 text-sm font-medium disabled:opacity-40 hover:bg-ledger-dark transition-colors"
       >
         {loading ? "Running reconciliation…" : "Run Reconciliation"}
       </button>
+
+      <p className="text-xs text-ink-faint mt-4">
+        Both files must be .csv with matching column headers. Maximum file size applies per your
+        server configuration.
+      </p>
     </div>
   );
 }
